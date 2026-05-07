@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BespokeRectangle/BespokeRectangle.iml" filepath="$PROJECT_DIR$/BespokeRectangle/BespokeRectangle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice/BlankTemplate/BlankTemplate.iml" filepath="$PROJECT_DIR$/Practice/BlankTemplate/BlankTemplate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForLoopsAgain/ForLoopsAgain.iml" filepath="$PROJECT_DIR$/ForLoopsAgain/ForLoopsAgain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tests/ForLoopsSurpriseTest/ForLoopsSurpriseTest.iml" filepath="$PROJECT_DIR$/Tests/ForLoopsSurpriseTest/ForLoopsSurpriseTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tests/ForLoopsSurpriseTest2/ForLoopsSurpriseTest2.iml" filepath="$PROJECT_DIR$/Tests/ForLoopsSurpriseTest2/ForLoopsSurpriseTest2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForLoopsYetAgain/ForLoopsYetAgain.iml" filepath="$PROJECT_DIR$/ForLoopsYetAgain/ForLoopsYetAgain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ForTheLoveOfLoops/ForTheLoveOfLoops.iml" filepath="$PROJECT_DIR$/ForTheLoveOfLoops/ForTheLoveOfLoops.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Loops/Loops.iml" filepath="$PROJECT_DIR$/Loops/Loops.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SnakeGame/SnakeGame.iml" filepath="$PROJECT_DIR$/SnakeGame/SnakeGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practice/SpareTimeChallenge/SpareTimeChallenge.iml" filepath="$PROJECT_DIR$/Practice/SpareTimeChallenge/SpareTimeChallenge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Term 2.iml" filepath="$PROJECT_DIR$/.idea/Term 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WordControl/WordControl.iml" filepath="$PROJECT_DIR$/WordControl/WordControl.iml" />
+    </modules>
+  </component>
+</project>
