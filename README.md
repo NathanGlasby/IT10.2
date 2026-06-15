@@ -41,21 +41,6 @@ javac -d build/classes src/*/*.java
 java -cp build/classes <packagename>.<ClassName>
 ```
 
-## Snake Game
-
-A tile-based Snake game built with Java Swing.
-
-**Controls**
-
-| Key | Action |
-|---|---|
-| Arrow keys / WASD | Change direction |
-| P | Pause / resume |
-| R | Restart after game over |
-| Space | Start game |
-
-See [`SnakeGame/README.md`](SnakeGame/README.md) for full build instructions and gameplay notes.
-
 ## Practice & Tests
 
 ```
