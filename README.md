@@ -6,7 +6,7 @@ Java coursework for Term 2 — a progression from basic loops through string man
 
 ## Prerequisites
 
-- **JDK 17+** (JDK 25 configured in `.vscode/settings.json`)
+- **JDK 25** (required — `nbproject` files set `javac.source=25` and `javac.target=25`)
 - **Apache Ant** (optional — each project includes a `build.xml`)
 - NetBeans or IntelliJ IDEA work out of the box; VS Code needs the [Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 
