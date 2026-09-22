@@ -1,0 +1,21 @@
+/Encyrption/nbproject/private/
+/Encyrption/build/
+/Tests/15 May, June Exam Rev/Glasby_Nathan/nbproject/private/
+/Tests/15 May, June Exam Rev/Glasby_Nathan/build/
+/Tests/Final Day Before June Prac/JunePracStudying/nbproject/private/
+/Tests/Final Day Before June Prac/JunePracStudying/build/
+/Tests/Term 2 Exam Corrections/nbproject/private/
+/Tests/Term 2 Exam Corrections/build/
+
+# Local recovery copies, IDE settings, and generated files
+/Recovery/
+**/build/
+**/dist/
+**/target/
+**/nbproject/private/
+**/.idea/
+**/.vscode/
+*.class
+*.ldb
+*.laccdb
+build-verification.txt

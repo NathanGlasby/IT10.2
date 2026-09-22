@@ -46,7 +46,7 @@ public class ForTheLoveOfLoops {
         
         
                 // Teacher Memo
-                for (int i = 224; i > 215; i+=2) {
+                for (int i = 224; i > 215; i-=2) {
                     System.out.print(i + " ");
                     }
                 System.out.println("");
@@ -54,7 +54,7 @@ public class ForTheLoveOfLoops {
         // 1001 999 997 995 993 991
         
                 // Teacher Memo
-                for (int i = 1001; i > 990; i-+2) {
+                for (int i = 1001; i > 990; i-=2) {
                     System.out.print(i + " ");
                             }
                 System.out.println("");
@@ -72,11 +72,10 @@ public class ForTheLoveOfLoops {
         
                 // Teacher Memo
                 for (int i = 0; i < 7; i++) {
-                    System.out.print((int)Math.pow(3,i) + " ")
+                    System.out.print((int)Math.pow(3,i) + " ");
                 }
                 System.out.println("");
 
         }
     }
     
-}

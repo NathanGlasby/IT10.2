@@ -60,7 +60,7 @@ public class ForLoopsSurpriseTest3_v2 {
     // Question 1.6 (4)
         int counter = 0;
         for (int i = 0; i < 3; i++) {
-            System.out.print(joined.charAt(counter) + " ");
+            System.out.print(temp.charAt(counter) + " ");
             counter++;
         }
         System.out.println("");

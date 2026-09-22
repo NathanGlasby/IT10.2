@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fibonacci Forge</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eef5f2;
+      --muted: #a8b8b1;
+      --panel: rgba(18, 25, 23, 0.88);
+      --line: rgba(255, 255, 255, 0.16);
+      --green: #62d394;
+      --gold: #f3c969;
+      --red: #ef6f6c;
+      --blue: #6ea8fe;
+      --bg: #0e1513;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(98, 211, 148, 0.26), transparent 28%),
+        radial-gradient(circle at 86% 18%, rgba(243, 201, 105, 0.16), transparent 26%),
+        linear-gradient(135deg, #0a1111 0%, #17221d 48%, #101314 100%);
+      overflow-x: hidden;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+      gap: 24px;
+      padding: clamp(16px, 3vw, 34px);
+    }
+
+    .side,
+    .stage {
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(18px);
+    }
+
+    .side {
+      border-radius: 8px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #101314;
+      background: conic-gradient(from 210deg, var(--green), var(--gold), var(--blue), var(--green));
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 56ch;
+    }
+
+    .rule {
+      border-left: 4px solid var(--green);
+      background: rgba(98, 211, 148, 0.1);
+      padding: 12px 14px;
+      line-height: 1.45;
+      color: #dcebe5;
+      overflow-wrap: anywhere;
+    }
+
+    .formula {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: clamp(20px, 2.8vw, 28px);
+      font-weight: 800;
+      color: var(--gold);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 10px;
+      background: rgba(255, 255, 255, 0.045);
+      min-width: 0;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 24px;
+    }
+
+    .sequence {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 90px;
+      align-content: flex-start;
+    }
+
+    .chip {
+      min-width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(98, 211, 148, 0.5);
+      border-radius: 8px;
+      background: rgba(98, 211, 148, 0.14);
+      color: #eafaf1;
+      font-weight: 800;
+      transition: transform 160ms ease, border-color 160ms ease;
+    }
+
+    .chip.new {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+
+    .stage {
+      border-radius: 8px;
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 680px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .prompt {
+      min-width: 0;
+    }
+
+    .prompt span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .prompt strong {
+      display: block;
+      margin-top: 2px;
+      font-size: clamp(20px, 3vw, 34px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    button {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+
+    button:hover,
+    button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.42);
+      outline: none;
+    }
+
+    .primary {
+      color: #0b1512;
+      border-color: transparent;
+      background: var(--green);
+    }
+
+    .playfield {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(240px, 380px);
+      gap: 0;
+      min-height: 0;
+    }
+
+    .visual {
+      position: relative;
+      min-height: 430px;
+      border-right: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .question {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .question h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.08;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      min-height: 72px;
+      font-size: clamp(20px, 4vw, 30px);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .choice.correct {
+      background: rgba(98, 211, 148, 0.32);
+      border-color: var(--green);
+    }
+
+    .choice.wrong {
+      background: rgba(239, 111, 108, 0.25);
+      border-color: var(--red);
+    }
+
+    .feedback {
+      min-height: 78px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      line-height: 1.45;
+      color: #dcebe5;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .feedback strong {
+      color: var(--gold);
+    }
+
+    .bottom {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .meter {
+      flex: 1;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .meter div {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: width 250ms ease;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        min-height: auto;
+      }
+
+      .playfield {
+        grid-template-columns: 1fr;
+      }
+
+      .visual {
+        min-height: 340px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        padding: 12px;
+      }
+
+      .brand {
+        align-items: flex-start;
+      }
+
+      .topbar,
+      .bottom {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: stretch;
+      }
+
+      .actions button {
+        flex: 1;
+      }
+
+      .stats,
+      .choices {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="side" aria-label="How the Fibonacci sequence works">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">F</div>
+        <div>
+          <h1>Fibonacci Forge</h1>
+        </div>
+      </div>
+      <p class="lede">
+        Grow the sequence by choosing the next number. Every correct answer adds one new square to the spiral.
+      </p>
+      <div class="rule">
+        The Fibonacci sequence starts with <strong>0</strong> and <strong>1</strong>. Each new number is made by adding the two numbers before it.
+      </div>
+      <div class="formula" id="formula">0 + 1 = ?</div>
+      <div class="stats">
+        <div class="stat">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat">
+          <span>Streak</span>
+          <strong id="streak">0</strong>
+        </div>
+        <div class="stat">
+          <span>Round</span>
+          <strong id="round">1</strong>
+        </div>
+      </div>
+      <div class="sequence" id="sequence" aria-label="Current Fibonacci sequence"></div>
+    </section>
+
+    <section class="stage" aria-label="Fibonacci game">
+      <div class="topbar">
+        <div class="prompt">
+          <span>Find the next Fibonacci number</span>
+          <strong id="questionText">What comes after 0, 1?</strong>
+        </div>
+        <div class="actions">
+          <button type="button" id="hintBtn">Hint</button>
+          <button type="button" class="primary" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="playfield">
+        <div class="visual">
+          <canvas id="spiralCanvas" width="900" height="680" aria-label="Animated Fibonacci spiral"></canvas>
+        </div>
+        <div class="question">
+          <h2 id="challenge">Add the last two numbers.</h2>
+          <div class="choices" id="choices"></div>
+          <div class="feedback" id="feedback">
+            Pick a number to see how the rule works.
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <span id="progressLabel">0 of 10 spiral squares built</span>
+        <div class="meter" aria-hidden="true"><div id="progressBar"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const maxRounds = 10;
+    const sequenceEl = document.getElementById("sequence");
+    const choicesEl = document.getElementById("choices");
+    const feedbackEl = document.getElementById("feedback");
+    const formulaEl = document.getElementById("formula");
+    const scoreEl = document.getElementById("score");
+    const streakEl = document.getElementById("streak");
+    const roundEl = document.getElementById("round");
+    const questionTextEl = document.getElementById("questionText");
+    const challengeEl = document.getElementById("challenge");
+    const progressLabelEl = document.getElementById("progressLabel");
+    const progressBarEl = document.getElementById("progressBar");
+    const hintBtn = document.getElementById("hintBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const canvas = document.getElementById("spiralCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let numbers;
+    let score;
+    let streak;
+    let locked;
+
+    function resetGame() {
+      numbers = [0, 1];
+      score = 0;
+      streak = 0;
+      locked = false;
+      feedbackEl.textContent = "Pick a number to see how the rule works.";
+      render();
+    }
+
+    function currentAnswer() {
+      return numbers[numbers.length - 1] + numbers[numbers.length - 2];
+    }
+
+    function makeChoices(answer) {
+      const options = new Set([answer]);
+      const offsets = [-3, -2, -1, 1, 2, 3, 5, -5];
+      let offsetIndex = 0;
+
+      while (options.size < 4) {
+        const candidate = Math.max(0, answer + offsets[offsetIndex % offsets.length]);
+        options.add(candidate);
+        offsetIndex += 1;
+      }
+
+      return [...options].sort(() => Math.random() - 0.5);
+    }
+
+    function choose(value, button) {
+      if (locked) return;
+
+      const answer = currentAnswer();
+      const previous = numbers[numbers.length - 2];
+      const current = numbers[numbers.length - 1];
+      locked = true;
+
+      if (value === answer) {
+        numbers.push(answer);
+        score += 10 + streak * 2;
+        streak += 1;
+        button.classList.add("correct");
+        feedbackEl.innerHTML = `<strong>Correct.</strong> ${previous} + ${current} = ${answer}, so ${answer} joins the sequence.`;
+      } else {
+        streak = 0;
+        button.classList.add("wrong");
+        feedbackEl.innerHTML = `<strong>Close.</strong> Use the two newest numbers: ${previous} + ${current} = ${answer}.`;
+        [...choicesEl.children].forEach((choice) => {
+          if (Number(choice.dataset.value) === answer) choice.classList.add("correct");
+        });
+      }
+
+      setTimeout(() => {
+        if (numbers.length - 2 >= maxRounds) {
+          finishGame();
+        } else {
+          locked = false;
+          render();
+        }
+      }, value === answer ? 800 : 1300);
+    }
+
+    function finishGame() {
+      feedbackEl.innerHTML = `<strong>Spiral complete.</strong> You built ${numbers.slice(0, -1).join(", ")}. The pattern keeps going forever.`;
+      choicesEl.innerHTML = "";
+      challengeEl.textContent = "You forged the Fibonacci pattern.";
+      questionTextEl.textContent = "The next number is always the last two added together.";
+      drawSpiral();
+      updateStats();
+    }
+
+    function showHint() {
+      const previous = numbers[numbers.length - 2];
+      const current = numbers[numbers.length - 1];
+      feedbackEl.innerHTML = `Hint: ignore the older numbers for now. Add only <strong>${previous}</strong> and <strong>${current}</strong>.`;
+    }
+
+    function render() {
+      const answer = currentAnswer();
+      const previous = numbers[numbers.length - 2];
+      const current = numbers[numbers.length - 1];
+
+      sequenceEl.innerHTML = numbers.map((number, index) => (
+        `<div class="chip ${index === numbers.length - 1 ? "new" : ""}">${number}</div>`
+      )).join("");
+
+      formulaEl.textContent = `${previous} + ${current} = ?`;
+      questionTextEl.textContent = `What comes after ${previous}, ${current}?`;
+      challengeEl.textContent = `Choose ${previous} + ${current}.`;
+      choicesEl.innerHTML = "";
+
+      makeChoices(answer).forEach((option) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice";
+        button.textContent = option;
+        button.dataset.value = option;
+        button.addEventListener("click", () => choose(option, button));
+        choicesEl.appendChild(button);
+      });
+
+      updateStats();
+      drawSpiral();
+    }
+
+    function updateStats() {
+      const built = Math.min(numbers.length - 2, maxRounds);
+      scoreEl.textContent = score;
+      streakEl.textContent = streak;
+      roundEl.textContent = Math.min(built + 1, maxRounds);
+      progressLabelEl.textContent = `${built} of ${maxRounds} spiral squares built`;
+      progressBarEl.style.width = `${(built / maxRounds) * 100}%`;
+    }
+
+    function drawSpiral() {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(width * dpr));
+      canvas.height = Math.max(1, Math.floor(height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+
+      const visibleNumbers = numbers.slice(1, Math.min(numbers.length, maxRounds + 1));
+      let x = 0;
+      let y = 0;
+      let direction = 0;
+      const unitSquares = [];
+
+      visibleNumbers.forEach((number, index) => {
+        const size = Math.max(1, number);
+        if (index === 0) {
+          unitSquares.push({ x, y: y - size, size, direction, number });
+        } else if (direction === 0) {
+          x += unitSquares[index - 1].size;
+          unitSquares.push({ x, y: y - size, size, direction, number });
+        } else if (direction === 1) {
+          y -= unitSquares[index - 1].size + size;
+          unitSquares.push({ x, y, size, direction, number });
+        } else if (direction === 2) {
+          x -= size;
+          unitSquares.push({ x, y, size, direction, number });
+        } else {
+          y += unitSquares[index - 1].size;
+          unitSquares.push({ x, y, size, direction, number });
+        }
+        direction = (direction + 1) % 4;
+      });
+
+      const bounds = unitSquares.reduce((box, square) => ({
+        minX: Math.min(box.minX, square.x),
+        minY: Math.min(box.minY, square.y),
+        maxX: Math.max(box.maxX, square.x + square.size),
+        maxY: Math.max(box.maxY, square.y + square.size)
+      }), { minX: 0, minY: 0, maxX: 1, maxY: 1 });
+      const padding = 26;
+      const scale = Math.max(4, Math.min(
+        (width - padding * 2) / Math.max(1, bounds.maxX - bounds.minX),
+        (height - padding * 2) / Math.max(1, bounds.maxY - bounds.minY)
+      ));
+      const squares = unitSquares.map((square) => ({
+        ...square,
+        x: (square.x - bounds.minX) * scale + padding,
+        y: (square.y - bounds.minY) * scale + padding,
+        size: square.size * scale
+      }));
+
+      ctx.save();
+      squares.forEach((square, index) => {
+        const hue = index % 2 === 0 ? "98, 211, 148" : "243, 201, 105";
+        ctx.fillStyle = `rgba(${hue}, ${0.12 + index * 0.025})`;
+        ctx.strokeStyle = `rgba(${hue}, 0.86)`;
+        ctx.lineWidth = 2;
+        ctx.fillRect(square.x, square.y, square.size, square.size);
+        ctx.strokeRect(square.x, square.y, square.size, square.size);
+        ctx.fillStyle = "rgba(238, 245, 242, 0.88)";
+        ctx.font = "800 16px Inter, sans-serif";
+        if (square.size > 28) {
+          ctx.fillText(square.number, square.x + 8, square.y + 22);
+        }
+      });
+
+      ctx.strokeStyle = "rgba(110, 168, 254, 0.95)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      squares.forEach((square, index) => {
+        const radius = square.size;
+        let centerX = square.x;
+        let centerY = square.y;
+        let start = 0;
+        let end = 0;
+
+        if (square.direction === 0) {
+          centerX = square.x;
+          centerY = square.y + radius;
+          start = -Math.PI / 2;
+          end = 0;
+        } else if (square.direction === 1) {
+          centerX = square.x;
+          centerY = square.y;
+          start = 0;
+          end = Math.PI / 2;
+        } else if (square.direction === 2) {
+          centerX = square.x + radius;
+          centerY = square.y;
+          start = Math.PI / 2;
+          end = Math.PI;
+        } else {
+          centerX = square.x + radius;
+          centerY = square.y + radius;
+          start = Math.PI;
+          end = Math.PI * 1.5;
+        }
+
+        if (index === 0) ctx.moveTo(square.x, square.y + radius);
+        ctx.arc(centerX, centerY, radius, start, end);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    hintBtn.addEventListener("click", showHint);
+    resetBtn.addEventListener("click", resetGame);
+    window.addEventListener("resize", drawSpiral);
+    resetGame();
+  </script>
+</body>
+</html>

@@ -2,64 +2,32 @@
 
 # IT10.2
 
-Java coursework for Term 2 — a progression from basic loops through string manipulation to a fully functional Swing GUI game.
-
-## Prerequisites
-
-- **JDK 25** (required — `nbproject` files set `javac.source=25` and `javac.target=25`)
-- **Apache Ant** (optional — each project includes a `build.xml`)
-- NetBeans or IntelliJ IDEA work out of the box; VS Code needs the [Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+My Grade 10 IT coursework for Term 2, covering loops, strings, and a Swing Snake game. Each project has its own folder.
 
 ## Projects
 
-Projects are listed in the order they were introduced. Each one lives in its own directory with its own Ant build file.
+The class exercises are `Loops`, `ForLoopsAgain`, `ForLoopsYetAgain`, `ForTheLoveOfLoops`, `WordControl`, `BespokeRectangle`, `VeryInteresting`, and `VeryInteresting_v2`. `Encyrption` contains a character-shifting exercise; its original folder spelling is kept.
 
-| Project | What it covers |
-|---|---|
-| `Loops/` | Basic `for` loops — counting up, counting down, stepping |
-| `ForLoopsAgain/` | More loop patterns and variations |
-| `ForLoopsYetAgain/` | Nested loops introduced |
-| `ForTheLoveOfLoops/` | Extended loop challenges |
-| `WordControl/` | Iterating over a `String` character by character |
-| `BespokeRectangle/` | Nested loops + `JOptionPane` to draw a user-defined rectangle |
-| `VeryInteresting/` | Compound-interest calculator using loops and `NumberFormat` |
-| `VeryInteresting_v2/` | Refactored version of the above |
-| `SnakeGame/` | Full Swing GUI game — keyboard input, game loop, collision detection |
+`Practice` contains BlankTemplate and SpareTimeChallenge. `Tests` includes the loop tests, June exam revision, the final practical study project, and Term 2 Exam Corrections. The written practice paper is in `Tests/Practice/28-04-26/PracticeTest_Term2.md`.
 
-### Running any project with Ant
+`SnakeGame` is a Swing game. There is also a browser exercise in `fibonacci-game.html`.
+
+## Running a project
+
+Open an individual project folder in NetBeans and run its main class. The projects target Java 25 and were checked with JDK 26. With Apache Ant installed, run this from a project folder:
 
 ```bash
-cd <ProjectFolder>
 ant run
 ```
 
-### Running without Ant
+For a build without running the program, use `ant jar`. SnakeGame has a custom build file and uses `ant compile` instead.
 
-```bash
-cd <ProjectFolder>
-javac -d build/classes src/*/*.java
-java -cp build/classes <packagename>.<ClassName>
-```
+## Work still in progress
 
-## Practice & Tests
+Some exercises are unfinished. Encyrption's incomplete decryption fragment is commented out, and SpareTimeChallenge still has unanswered sections. `Tests/ForLoopsSurpriseTest3` has project files but no source in its expected source folder. A similarly named source file is preserved inside ForLoopsSurpriseTest2.
 
-```
-Practice/
-  BlankTemplate/          — empty starter for new exercises
-  SpareTimeChallenge/     — 5 stretch problems:
-                            1. Powers of 2 (doubling streak)
-                            2. String staircase builder
-                            3. Hollow box pattern
-                            4. Vowel census
-                            5. Caesar cipher decoder
-
-Tests/
-  ForLoopsSurpriseTest/   — graded loop exercises (x4 variants)
-  Practice/28-04-26/
-    PracticeTest_Term2.md — full 50-mark, 60-min practice exam with answer key
-    Code/                 — submission folder
-```
+During recovery, 18 projects containing source compiled successfully. The remaining project entry has metadata only. Original versions of repaired files are kept in local recovery backups. Those backups, generated files, and machine-specific IDE settings are excluded from Git.
 
 ## License
 
-MIT © 2026 Nathan Glasby
+See [LICENSE](./LICENSE).
