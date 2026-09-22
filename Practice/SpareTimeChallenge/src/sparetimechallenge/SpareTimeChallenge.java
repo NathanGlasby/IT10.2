@@ -34,6 +34,7 @@ public class SpareTimeChallenge {
         // YOUR CODE HERE (nested loop OR one loop with substring - your choice)
             for (int i = 0; i < word.length(); i++) {
                 System.out.println(word.substring(0, i+1));
+            }
 
 
         // --- Part 3: Hollow box ---------------------------------------------
